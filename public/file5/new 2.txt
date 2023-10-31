@@ -1,0 +1,109 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('notaris', function (Blueprint $table) {
+            $table->unsignedBigInteger('id')->primary();
+            $table->string('no_sk');
+            $table->string('nama');
+            $table->string('no_telepon');
+            $table->string('email');
+            $table->string('kedudukan');
+            $table->string('file');
+            $table->boolean('delstatus')->default(true);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('notaris');
+    }
+};
+
+
+////////////////////////////////////
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('notpengganti', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('notaris_id');
+            $table->string('waktu_cuti');
+            $table->string('notaris_pengganti');
+            $table->date('tanggal_pelantikkan');
+            $table->string('file');
+            $table->boolean('delstatus')->default(true);
+            $table->timestamps();
+
+            $table->foreign('notaris_id')->references('id')->on('notaris');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('notpengganti');
+    }
+};
+////////////////////////////////////////////////////////
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('wilayah', function (Blueprint $table) {
+            $table->unsignedBigInteger('id')->primary();
+            $table->string('kecamatan');
+            $table->string('kabupaten');
+            $table->string('provinsi');
+            $table->boolean('delstatus')->default(true);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('wilayah');
+    }
+};
+
+////////////////////////////////////////////////////////////
+

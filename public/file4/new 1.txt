@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\notaris;
+
+
+class NotarisController extends Controller
+{
+    public function tampilHalamanBiodata()
+    {
+    
+        $dtnotaris = notaris::all();
+
+    return view('biodata.notaris', compact ('dtnotaris'));
+    }
+
+    public function tampilHalamanTambahBiodata()
+    {
+    
+        //$dtnotaris = notaris::all();
+
+    return view('biodata.create-biodata');
+    }
+
+    
+
+    public function SimpanNotaris(request $request)
+    {
+        //dd($request->all());
+        notaris::create([
+            'nama'=> $request->nama,
+            'ttl'=>$request->ttl,
+            'jenis_kelamin'=>$request->jenis_kelamin,
+            'no_telepon'=> $request->no_telepon,
+            'nip'=> $request->nip,
+            'no_sk'=> $request->no_sk,
+            'npwp'=> $request->npwp,
+            'email'=> $request->email,
+            'kedudukan'=> $request->kedudukan,
+        ]);
+
+        return redirect('Notaris');
+    }
+
+    public function EditNotaris($id)
+    {
+        $peg = notaris::findorfail($id);
+        return view('biodata.edit-notaris',compact ('peg'));
+    }
+
+    public function UpdateNotaris(request $request, $id)
+    {
+        $peg = notaris::findorfail($id);
+        $peg->update($request->all());
+        return redirect('Notaris')->with('toast_success', 'Data Berhasil Update');
+    } 
+
+    public function DeleteNotaris($id)
+    {
+        $peg = notaris::findorfail($id);
+        $peg->delete();
+        return back()->with('info', 'Data Berhasil Dihapus');  
+    }
+
+    
+}
